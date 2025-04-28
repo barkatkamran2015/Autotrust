@@ -1,0 +1,82 @@
+/* Admin Dashboard Styles */
+.admin-section {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #005f69, #004d55);
+    padding: 3rem 0;
+  }
+  
+  .admin-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .add-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+  }
+  
+  .add-button {
+    background-color: #006d77;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-button:hover {
+    background-color: #005f69;
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .admin-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .admin-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .admin-edit-button {
+    background-color: #006d77;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .admin-edit-button:hover {
+    background-color: #005f69;
+    transform: scale(1.05);
+  }
+  
+  .admin-delete-button {
+    background-color: #dc2626;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .admin-delete-button:hover {
+    background-color: #b91c1c;
+    transform: scale(1.05);
+  }
+  
+  .loading-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: linear-gradient(to bottom right, #005f69, #004d55);
+  }

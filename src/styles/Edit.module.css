@@ -1,0 +1,20 @@
+/* Edit Car Page Styles */
+.edit-car-section {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #005f69, #004d55);
+    padding: 3rem 0;
+  }
+  
+  .preview-image {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+  }
+  
+  .no-image-text {
+    color: #666;
+    font-size: 0.875rem;
+  }

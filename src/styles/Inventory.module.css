@@ -1,0 +1,553 @@
+.inventorySection {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d252d 0%, #1a3c4a 100%);
+  padding: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.inventorySection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 30%, rgba(0, 188, 212, 0.1) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.layoutWrapper {
+  display: flex;
+  position: relative;
+  z-index: 1;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 0 2rem;
+}
+
+/* Search Bar Styles */
+.searchBar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0f7fa;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #00bcd4;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+}
+
+.searchInput::placeholder {
+  color: #b0bec5;
+  opacity: 0.7;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.03) 100%);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  padding: 2rem 1.5rem;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  border-right: 2px solid transparent;
+  background-clip: padding-box;
+  transition: border-right-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidebar:hover {
+  border-right-color: #00bcd4;
+  box-shadow: 0 6px 20px rgba(0, 188, 212, 0.2);
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebarTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #e0f7fa;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.sidebarTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #00bcd4 0%, #0288d1 100%);
+  border-radius: 2px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.7s ease-out forwards;
+}
+
+.filterLabel {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #e0f7fa;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: color 0.3s ease;
+}
+
+.filterLabel:hover {
+  color: #00bcd4;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0f7fa;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0f7fa" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #00bcd4;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.priceRange {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rangeInput {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  outline: none;
+  transition: background 0.3s ease;
+}
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #00bcd4;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+}
+
+.rangeInput::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #00bcd4;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+}
+
+.rangeInput:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.rangeValue {
+  font-size: 0.9rem;
+  color: #b0bec5;
+  text-align: center;
+}
+
+.resetButton {
+  background: linear-gradient(90deg, #e91e63 0%, #c2185b 100%);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+  animation: slideIn 0.9s ease-out forwards;
+}
+
+.resetButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.5);
+  background: linear-gradient(90deg, #c2185b 0%, #e91e63 100%);
+}
+
+.inventoryTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #e0f7fa;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.inventorySubtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0ad852;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.adminActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.addButton {
+  background: linear-gradient(90deg, #00bcd4 0%, #0288d1 100%);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+}
+
+.addButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
+}
+
+.inventoryGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.inventoryCard {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.inventoryCard:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.inventoryImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.inventoryImage:hover {
+  transform: scale(1.05);
+}
+
+.inventoryCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inventoryCardTitleLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.inventoryCardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #00bcd4;
+  transition: color 0.3s ease;
+}
+
+.inventoryCardTitleLink:hover .inventoryCardTitle {
+  color: #0288d1;
+}
+
+.inventoryCardText {
+  font-size: 0.9rem;
+  color: #b0bec5;
+}
+
+.inventoryCardPrice {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e0f7fa;
+}
+
+.detailLink {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #00f6ff;
+  transition: background 0.3s ease;
+}
+
+.detailLink:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.noCars {
+  font-size: 1.2rem;
+  color: #b0bec5;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .inventoryGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .sidebar {
+    width: 250px;
+  }
+
+  .mainContent {
+    padding: 0 1.5rem;
+  }
+
+  .searchInput {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .inventorySection {
+    padding: 1.5rem 0;
+  }
+
+  .layoutWrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 2px solid transparent;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar:hover {
+    border-right-color: transparent;
+    border-bottom-color: #00bcd4;
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.2);
+  }
+
+  .mainContent {
+    padding: 0 1rem;
+  }
+
+  .inventoryTitle {
+    font-size: 2.5rem;
+  }
+
+  .inventorySubtitle {
+    font-size: 1.1rem;
+    max-width: 90%;
+  }
+
+  .inventoryGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .inventoryCard {
+    padding: 1.25rem;
+  }
+
+  .inventoryImage {
+    height: 180px;
+  }
+
+  .addButton {
+    padding: 0.65rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .searchInput {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .inventorySection {
+    padding: 1rem 0;
+  }
+
+  .inventoryTitle {
+    font-size: 2rem;
+  }
+
+  .inventorySubtitle {
+    font-size: 1rem;
+    max-width: 95%;
+  }
+
+  .inventoryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventoryCard {
+    padding: 1rem;
+  }
+
+  .inventoryImage {
+    height: 160px;
+  }
+
+  .inventoryCardTitle {
+    font-size: 1.1rem;
+  }
+
+  .inventoryCardText,
+  .inventoryCardPrice {
+    font-size: 0.85rem;
+  }
+
+  .noCars {
+    font-size: 1rem;
+    padding: 1.5rem;
+  }
+
+  .sidebar {
+    padding: 1rem;
+  }
+
+  .sidebarContent {
+    gap: 1rem;
+  }
+
+  .sidebarTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .sidebarTitle::after {
+    width: 40px;
+    height: 2px;
+  }
+
+  .filterSelect,
+  .rangeInput {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 0.4rem;
+  }
+
+  .filterLabel {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .rangeValue {
+    font-size: 0.85rem;
+  }
+
+  .resetButton {
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 0.4rem;
+  }
+
+  .addButton {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .searchInput {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}

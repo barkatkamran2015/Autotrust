@@ -1,0 +1,334 @@
+/* src/styles/Navbar.module.css */
+
+/* Navbar base styles */
+.navbar {
+  background: linear-gradient(90deg, #136784 0%, #0d252d 100%);
+  color: #fff;
+  padding: 5px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  background: rgba(19, 103, 132, 0.85);
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-height: 100px; /* Limit height on desktop */
+}
+
+/* Header row: Logo and Nav Links/Hamburger */
+.navbarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Left: Logo */
+.navbarLeft {
+  display: flex;
+  align-items: center;
+}
+
+/* Right: Nav Links (desktop) or Hamburger (mobile) */
+.navbarRight {
+  display: flex;
+  align-items: center;
+}
+
+.navbarTitle {
+  transition: transform 0.3s ease;
+}
+
+.navbarTitle:hover {
+  transform: scale(1.05);
+}
+
+.navbarLogo {
+  height: 60px;
+  width: auto;
+}
+
+.navbarLinks {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  gap: 2rem;
+  margin-right: 2rem;
+}
+
+.navbarLink {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbarLink:hover {
+  color: #00bcd4;
+}
+
+.navbarLink::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: linear-gradient(90deg, #00bcd4, #0288d1);
+  transition: width 0.3s ease;
+}
+
+.navbarLink:hover::after {
+  width: 100%;
+}
+
+/* Dropdown Styles */
+.dropdown {
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: linear-gradient(180deg, #136784 0%, #0d252d 100%);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  min-width: 150px;
+  padding: 0.5rem 0;
+  opacity: 0;
+  transform: translateY(0);
+  animation: dropdownFade 0.3s forwards;
+  z-index: 1000;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownItem {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  font-size: 1rem;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background: #00bcd4;
+  color: #fff;
+  transform: translateX(5px);
+}
+
+.dropdownButton {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  text-align: left;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.dropdownButton:hover {
+  background: #f44336;
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Hamburger Menu Styles */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburgerIcon,
+.hamburgerIconOpen {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background: #fff;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.hamburgerIcon::before,
+.hamburgerIcon::after,
+.hamburgerIconOpen::before,
+.hamburgerIconOpen::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 3px;
+  background: #fff;
+  transition: transform 0.3s ease;
+}
+
+.hamburgerIcon::before {
+  top: -8px;
+}
+
+.hamburgerIcon::after {
+  top: 8px;
+}
+
+.hamburgerIconOpen {
+  background: transparent;
+}
+
+.hamburgerIconOpen::before {
+  transform: rotate(45deg);
+  top: 0;
+  background: #00bcd4;
+}
+
+.hamburgerIconOpen::after {
+  transform: rotate(-45deg);
+  top: 0;
+  background: #00bcd4;
+}
+
+/* Responsive Styles */
+@media (min-width: 769px) {
+  .navbarContainer {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .navbarHeader {
+    flex: 0 0 auto;
+  }
+
+  .navbarRight {
+    flex: 0 0 auto;
+  }
+
+  .navbarLinks {
+    display: flex;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbarLinks {
+    gap: 1.5rem;
+    margin-right: 1rem;
+  }
+
+  .navbarLink {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbarContainer {
+    flex-direction: row; /* Keep logo and hamburger in a single row */
+    align-items: center;
+    max-height: none; /* Allow height to adjust on mobile */
+  }
+
+  .navbarHeader {
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 10px; /* Add padding to ensure logo and hamburger don't touch edges */
+  }
+
+  .navbarLeft {
+    justify-content: flex-start;
+  }
+
+  .navbarLogo {
+    height: 50px;
+  }
+
+  .navbarRight {
+    justify-content: flex-end;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .navbarLinks {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #0d252d;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    margin-right: 0;
+  }
+
+  .navbarLinksOpen {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navbarLink {
+    padding: 0.5rem 0;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .dropdownMenu {
+    position: static;
+    background: #1a3c4a;
+    box-shadow: none;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbarHeader {
+    justify-content: space-between;
+  }
+
+  .navbarLeft {
+    justify-content: flex-start;
+  }
+
+  .navbarLogo {
+    height: 45px;
+  }
+
+  .navbarLink {
+    font-size: 0.9rem;
+  }
+}
