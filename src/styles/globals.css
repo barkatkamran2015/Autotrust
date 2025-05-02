@@ -1,0 +1,67 @@
+/* Default light mode variables */
+:root {
+    --navbar-bg-start: #136784;
+    --navbar-bg-end: #0d252d;
+    --navbar-bg-overlay: rgba(19, 103, 132, 0.85);
+    --navbar-text: #fff;
+    --navbar-link-hover: #00bcd4;
+    --navbar-dropdown-bg-start: #136784;
+    --navbar-dropdown-bg-end: #0d252d;
+    --navbar-dropdown-item-hover-bg: #00bcd4;
+    --navbar-dropdown-button-hover-bg: #f44336;
+  
+    /* General page variables (light mode) */
+    --background-start: #f3f4f6; /* Lighter gray for light mode */
+    --background-end: #e5e7eb;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --details-bg: #f9fafb;
+    --details-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    --text-color: #1f2937;
+    --desc-color: #4b5563;
+    --border-color: #d1d5db;
+    --button-bg-start: #3b82f6; /* Blue accent */
+    --button-bg-end: #60a5fa;
+    --button-text: #ffffff;
+    --button-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Dark mode variables */
+  [data-theme="dark"] {
+    --navbar-bg-start: #374151;
+    --navbar-bg-end: #1f2937;
+    --navbar-bg-overlay: rgba(55, 65, 81, 0.85);
+    --navbar-text: #e5e7eb;
+    --navbar-link-hover: #93c5fd;
+    --navbar-dropdown-bg-start: #374151;
+    --navbar-dropdown-bg-end: #1f2937;
+    --navbar-dropdown-item-hover-bg: #93c5fd;
+    --navbar-dropdown-button-hover-bg: #f87171;
+  
+    /* General page variables (dark mode) */
+    --background-start: #1f2937;
+    --background-end: #111827;
+    --card-bg: #374151;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    --details-bg: #4b5563;
+    --details-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    --text-color: #e5e7eb;
+    --desc-color: #9ca3af;
+    --border-color: #4b5563;
+    --button-bg-start: #93c5fd;
+    --button-bg-end: #bfdbfe;
+    --button-text: #1f2937;
+    --button-shadow: 0 4px 15px rgba(147, 197, 253, 0.3);
+  }
+  
+  /* Apply variables to body */
+  body {
+    background: linear-gradient(180deg, var(--background-start) 0%, var(--background-end) 100%);
+    margin: 0;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  /* Ensure main content inherits theme */
+  main {
+    background: transparent;
+  }

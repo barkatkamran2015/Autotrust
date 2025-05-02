@@ -33,32 +33,29 @@ export default async function CarDetailPage({ params }) {
     notFound();
   }
 
-  // Ensure images is an array with at least one image
-  const images = Array.isArray(car.images) && car.images.length > 0 ? car.images : ['/uploads/cars/default.jpg'];
+  const images = Array.isArray(car.images) && car.images.length > 0 ? car.images : ['/Uploads/cars/default.jpg'];
   console.log('Images for slider:', images);
 
   return (
     <div className={styles.carDetailSection}>
-      <div className="container">
-        <div className={styles.carDetailCard}>
-          <h1 className={styles.carDetailTitle}>
-            {car.make || 'Unknown Make'} {car.model || 'Unknown Model'} ({car.year || 'N/A'})
-          </h1>
-          <CarSlider images={images} make={car.make || 'Unknown'} model={car.model || 'Unknown'} />
-          <div className={styles.carDetails}>
-            <div className={styles.carDetailsGrid}>
-              <p><strong>Price:</strong> ${car.price ? car.price.toLocaleString() : 'N/A'}</p>
-              <p><strong>Mileage:</strong> {car.mileage ? car.mileage.toLocaleString() : 'N/A'} miles</p>
-              <p><strong>Fuel Type:</strong> {car.fuelType || 'N/A'}</p>
-              <p><strong>Transmission:</strong> {car.transmission || 'N/A'}</p>
-              <p><strong>Condition:</strong> {car.condition ? car.condition.charAt(0).toUpperCase() + car.condition.slice(1) : 'N/A'}</p>
-            </div>
-            <p className={styles.carDescription}><strong>Description:</strong> {car.description || 'No description provided.'}</p>
+      <div className={styles.container}>
+        <h1 className={styles.carDetailTitle}>
+          {car.make || 'Unknown Make'} {car.model || 'Unknown Model'} ({car.year || 'N/A'})
+        </h1>
+        <CarSlider images={images} make={car.make || 'Unknown'} model={car.model || 'Unknown'} />
+        <div className={styles.carDetails}>
+          <div className={styles.carDetailsGrid}>
+            <p><strong>Price:</strong> ${car.price ? car.price.toLocaleString() : 'N/A'}</p>
+            <p><strong>Mileage:</strong> {car.mileage ? car.mileage.toLocaleString() : 'N/A'} miles</p>
+            <p><strong>Fuel Type:</strong> {car.fuelType || 'N/A'}</p>
+            <p><strong>Transmission:</strong> {car.transmission || 'N/A'}</p>
+            <p><strong>Condition:</strong> {car.condition ? car.condition.charAt(0).toUpperCase() + car.condition.slice(1) : 'N/A'}</p>
           </div>
-          <Link href="/inventory" className={styles.backButton}>
-            Back to Inventory
-          </Link>
+          <p className={styles.carDescription}><strong>Description:</strong> {car.description || 'No description provided.'}</p>
         </div>
+        <Link href="/inventory" className={styles.backButton}>
+          Back to Inventory
+        </Link>
       </div>
     </div>
   );

@@ -25,18 +25,21 @@ export default function InventoryPage() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/get-cars`, {
+        const response = await fetch('/api/get-cars', {
           cache: 'no-store',
         });
         if (!response.ok) {
-          throw new Error('Failed to load inventory');
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const carData = await response.json();
         console.log('Fetched cars:', carData);
-        const fetchedCars = carData.cars || carData;
-        setCars(fetchedCars);
-        setFilteredCars(fetchedCars);
+        if (carData.error) {
+          throw new Error(carData.error);
+        }
+        setCars(carData);
+        setFilteredCars(carData);
       } catch (err) {
+        console.error('Error fetching cars:', err);
         setError('Failed to load inventory. Please try again later.');
       } finally {
         setLoading(false);
@@ -180,16 +183,15 @@ export default function InventoryPage() {
             ) : (
               filteredCars.map((car) => {
                 console.log('Rendering car:', car);
-                const imageSrc = car.images?.[0] || '/uploads/cars/default.jpg';
                 return (
                   <div key={car.id} className={styles.inventoryCard}>
                     <Link href={`/cars/${car.id}`} className={styles.inventoryImageLink}>
-                    <img
-                    src={car.primary_image || '/uploads/cars/default.jpg'}
-                    alt={`${car.make} ${car.model}`}
-                    className={styles.inventoryImage}
-                    onError={(e) => { e.target.src = '/uploads/cars/default.jpg'; }}
-                  />
+                      <img
+                        src={car.primary_image || '/uploads/cars/default.jpg'}
+                        alt={`${car.make} ${car.model}`}
+                        className={styles.inventoryImage}
+                        onError={(e) => { e.target.src = '/uploads/cars/default.jpg'; }}
+                      />
                     </Link>
                     <div className={styles.inventoryCardContent}>
                       <Link href={`/cars/${car.id}`} className={styles.inventoryCardTitleLink}>

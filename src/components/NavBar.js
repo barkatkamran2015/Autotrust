@@ -13,7 +13,9 @@ export function NavBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [dropdownTimeout, setDropdownTimeout] = useState(null);
+  const [theme, setTheme] = useState('light');
 
+  // Handle resize for mobile detection
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -22,6 +24,25 @@ export function NavBar() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Set initial theme from localStorage on mount (client-side only)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  }, []);
+
+  // Toggle theme and save to localStorage (client-side only)
+  const toggleTheme = () => {
+    if (typeof window !== 'undefined') {
+      const newTheme = theme === 'light' ? 'dark' : 'light';
+      setTheme(newTheme);
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -38,7 +59,10 @@ export function NavBar() {
   };
 
   const handleMouseEnter = () => {
-    if (dropdownTimeout) clearTimeout(dropdownTimeout);
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout);
+      setDropdownTimeout(null);
+    }
     setIsDropdownOpen(true);
   };
 
@@ -49,10 +73,18 @@ export function NavBar() {
     setDropdownTimeout(timeout);
   };
 
+  // Clean up dropdownTimeout on unmount
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeout) {
+        clearTimeout(dropdownTimeout);
+      }
+    };
+  }, [dropdownTimeout]);
+
   return (
     <nav className={styles.navbar}>
       <div className={`${styles.navbarContainer} container`}>
-        {/* Header row: Logo and Nav Links/Hamburger */}
         <div className={styles.navbarHeader}>
           <div className={styles.navbarLeft}>
             <h1 className={styles.navbarTitle}>
@@ -135,6 +167,17 @@ export function NavBar() {
                   Login
                 </Link>
               )}
+              {/* Add theme toggle inside navbarLinks */}
+              <button
+                onClick={() => {
+                  toggleTheme();
+                  setIsOpen(false);
+                }}
+                className={styles.themeToggle}
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              >
+                {theme === 'light' ? '🌙' : '☀️'}
+              </button>
             </div>
           </div>
         </div>
