@@ -9,15 +9,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="light"><body><AuthProvider><NavBar /><main>{children}</main></AuthProvider><script
-      dangerouslySetInnerHTML={{
-        __html: `
-          (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-          })();
-        `,
-      }}
-    /></body></html>
+    <html lang="en">
+      <body>
+        <AuthProvider>
+          <NavBar />
+          <main>{children}</main>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

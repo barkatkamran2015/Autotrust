@@ -19,6 +19,17 @@ export default function AddCarPage() {
     transmission: '',
     description: '',
     condition: 'new',
+    location: '',
+    vin: '',
+    exteriorColor: '',
+    interiorColor: '',
+    engineSize: '',
+    horsepower: 0,
+    driveType: '',
+    features: '',
+    sellerName: '',
+    sellerEmail: '',
+    status: 'Available',
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -42,7 +53,7 @@ export default function AddCarPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'year' || name === 'price' || name === 'mileage' ? parseInt(value) || 0 : value,
+      [name]: name === 'year' || name === 'price' || name === 'mileage' || name === 'horsepower' ? parseInt(value) || 0 : value,
     }));
   };
 
@@ -61,6 +72,7 @@ export default function AddCarPage() {
     if (formData.mileage < 0) return 'Mileage cannot be negative';
     if (!formData.fuelType) return 'Fuel type is required';
     if (!formData.transmission) return 'Transmission is required';
+    if (formData.horsepower < 0) return 'Horsepower cannot be negative';
     return null;
   };
 
@@ -86,7 +98,18 @@ export default function AddCarPage() {
       data.append('transmission', formData.transmission);
       data.append('description', formData.description);
       data.append('condition', formData.condition);
-      imageFiles.forEach(file => data.append('images', file)); // Send image files directly
+      data.append('location', formData.location);
+      data.append('vin', formData.vin);
+      data.append('exteriorColor', formData.exteriorColor);
+      data.append('interiorColor', formData.interiorColor);
+      data.append('engineSize', formData.engineSize);
+      data.append('horsepower', formData.horsepower.toString());
+      data.append('driveType', formData.driveType);
+      data.append('features', formData.features);
+      data.append('sellerName', formData.sellerName);
+      data.append('sellerEmail', formData.sellerEmail);
+      data.append('status', formData.status);
+      imageFiles.forEach(file => data.append('images', file));
 
       const response = await fetch('/api/add-car', {
         method: 'POST',
@@ -193,6 +216,120 @@ export default function AddCarPage() {
               >
                 <option value="new">New</option>
                 <option value="used">Used</option>
+              </select>
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Location</label>
+              <Input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>VIN</label>
+              <Input
+                type="text"
+                name="vin"
+                value={formData.vin}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Exterior Color</label>
+              <Input
+                type="text"
+                name="exteriorColor"
+                value={formData.exteriorColor}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Interior Color</label>
+              <Input
+                type="text"
+                name="interiorColor"
+                value={formData.interiorColor}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Engine Size</label>
+              <Input
+                type="text"
+                name="engineSize"
+                value={formData.engineSize}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Horsepower</label>
+              <Input
+                type="number"
+                name="horsepower"
+                value={formData.horsepower.toString()}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Drive Type</label>
+              <Input
+                type="text"
+                name="driveType"
+                value={formData.driveType}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Features (comma-separated)</label>
+              <Input
+                type="text"
+                name="features"
+                value={formData.features}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+                placeholder="e.g., Leather Seats, Sunroof, Backup Camera"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Seller Name</label>
+              <Input
+                type="text"
+                name="sellerName"
+                value={formData.sellerName}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Seller Email</label>
+              <Input
+                type="email"
+                name="sellerEmail"
+                value={formData.sellerEmail}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              >
+                <option value="Available">Available</option>
+                <option value="Sold">Sold</option>
+                <option value="Pending">Pending</option>
               </select>
             </div>
             <div className={styles.formGroup}>

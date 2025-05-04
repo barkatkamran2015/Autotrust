@@ -7,6 +7,7 @@
 /* Card container */
 .carDetailCard {
   width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
   background: var(--card-bg);
   border-radius: 1rem;
@@ -30,9 +31,6 @@
 /* Details section */
 .carDetails {
   margin-top: 2rem;
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
   padding: 1.5rem;
   background: var(--details-bg);
   border-radius: 0.75rem;
@@ -54,16 +52,6 @@
   font-weight: 600;
 }
 
-/* Description paragraph */
-.carDetails p:last-child {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-  font-style: italic;
-  color: var(--desc-color);
-  white-space: pre-wrap;
-}
-
 /* Grid layout for details */
 .carDetailsGrid {
   display: grid;
@@ -73,7 +61,84 @@
   margin-bottom: 1rem;
 }
 
-/* Description styling */
+/* Features section */
+.featuresContainer {
+  margin: 2rem 0;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #007bff;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.featuresTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 1rem;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.featuresList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.featureBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background: #ff5722;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: bounceIn 0.5s ease forwards;
+  animation-delay: calc(var(--index) * 0.1s);
+  cursor: pointer;
+}
+
+.featureBadge:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #e64a19;
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Description paragraph */
 .carDescription {
   margin-top: 1rem;
   padding-top: 1rem;
@@ -81,6 +146,35 @@
   font-style: italic;
   color: var(--desc-color);
   white-space: pre-wrap;
+}
+
+/* Seller info */
+.sellerInfo {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.sellerTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+.sellerInfo p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.sellerEmail {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.sellerEmail:hover {
+  text-decoration: underline;
 }
 
 /* Back to Inventory button */
@@ -139,6 +233,15 @@
   .carDetails p {
     font-size: 1rem;
   }
+
+  .featuresTitle {
+    font-size: 1.25rem;
+  }
+
+  .featureBadge {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -157,5 +260,14 @@
   .backButton {
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
+  }
+
+  .featuresTitle {
+    font-size: 1.1rem;
+  }
+
+  .featureBadge {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.7rem;
   }
 }

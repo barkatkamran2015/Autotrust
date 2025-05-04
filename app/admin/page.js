@@ -9,18 +9,27 @@ export default function AdminPage() {
   const router = useRouter();
   const [cars, setCars] = useState([]);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCars = async () => {
+      setIsLoading(true);
       try {
+        console.log('Fetching cars from /api/get-cars');
         const response = await fetch('/api/get-cars');
         if (!response.ok) {
+          const text = await response.text();
+          console.error('Fetch response (not OK):', text);
           throw new Error('Failed to fetch cars');
         }
         const data = await response.json();
+        console.log('Fetched cars data:', data);
         setCars(data);
       } catch (err) {
+        console.error('Error fetching cars:', err);
         setError('Failed to load cars: ' + err.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCars();
@@ -32,12 +41,20 @@ export default function AdminPage() {
         method: 'DELETE',
       });
       if (!response.ok) {
+        const text = await response.text();
+        console.error('Delete response (not OK):', text);
         throw new Error('Failed to delete car');
       }
       setCars(cars.filter((c) => c.id !== id));
     } catch (err) {
+      console.error('Error deleting car:', err);
       setError('Failed to delete car: ' + err.message);
     }
+  };
+
+  const refreshCars = () => {
+    setError('');
+    router.refresh();
   };
 
   return (
@@ -65,7 +82,6 @@ export default function AdminPage() {
           Admin Dashboard
         </h1>
 
-        {/* Advertisement Section */}
         <div
           style={{
             background: 'rgba(255, 255, 255, 0.05)',
@@ -82,7 +98,6 @@ export default function AdminPage() {
             animation: 'fadeIn 1s ease-out forwards',
           }}
         >
-          {/* Inline styles for responsiveness */}
           <style>
             {`
               @media (max-width: 768px) {
@@ -135,7 +150,6 @@ export default function AdminPage() {
             `}
           </style>
 
-          {/* Advertisement Section with classNames for targeting */}
           <div className="advertisement-section" style={{ display: 'inherit', flexDirection: 'inherit', gap: 'inherit', alignItems: 'inherit', padding: 'inherit' }}>
             <img
               className="advertisement-image"
@@ -221,10 +235,33 @@ export default function AdminPage() {
         <div
           style={{
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'space-between',
             marginBottom: '2rem',
+            alignItems: 'center',
           }}
         >
+          <Button
+            onClick={refreshCars}
+            style={{
+              background: 'linear-gradient(90deg, #4caf50 0%, #2e7d32 100%)',
+              color: '#fff',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '0.5rem',
+              border: 'none',
+              fontSize: '1.1rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease, box-shadow 0.3s ease',
+              boxShadow: '0 4px 15px rgba(76, 175, 80, 0.3)',
+              ':hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 20px rgba(76, 175, 80, 0.5)',
+              },
+            }}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Refreshing...' : 'Refresh List'}
+          </Button>
           <Link href="/admin/add">
             <Button
               style={{
@@ -263,78 +300,117 @@ export default function AdminPage() {
                 gridColumn: '1 / -1',
               }}
             >
-              No cars available.
+              {isLoading ? 'Loading cars...' : 'No cars available.'}
             </p>
           ) : (
-            cars.map((car) => (
-              <div
-                key={car.id}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  borderRadius: '1rem',
-                  padding: '1.5rem',
-                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  animation: 'fadeIn 0.6s ease-out forwards',
-                  ':hover': {
-                    transform: 'scale(1.03)',
-                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
-                  },
-                }}
-              >
-                <img
-                  src={car.primary_image || '/uploads/cars/default.jpg'} // Updated to use primary_image
-                  alt={`${car.make} ${car.model}`}
-                  style={{
-                    width: '100%',
-                    height: '200px',
-                    objectFit: 'cover',
-                    borderRadius: '0.75rem',
-                    marginBottom: '1rem',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                  }}
-                  onError={(e) => { e.target.src = '/uploads/cars/default.jpg'; }} // Added fallback for image loading errors
-                />
+            cars.map((car) => {
+              console.log('Rendering car in AdminPage:', car);
+              if (!car.id) {
+                console.error('Car missing id in AdminPage:', car);
+                return null; // Skip rendering this car
+              }
+              return (
                 <div
+                  key={car.id}
                   style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '1rem',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '1rem',
+                    padding: '1.5rem',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    animation: 'fadeIn 0.6s ease-out forwards',
+                    ':hover': {
+                      transform: 'scale(1.03)',
+                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
+                    },
                   }}
                 >
-                  <div>
-                    <h2
-                      style={{
-                        fontSize: '1.25rem',
-                        fontWeight: '600',
-                        color: '#00bcd4',
-                        marginBottom: '0.5rem',
-                      }}
-                    >
-                      {car.make} {car.model}
-                    </h2>
-                    <p
-                      style={{
-                        fontSize: '0.9rem',
-                        color: '#b0bec5',
-                      }}
-                    >
-                      Year: {car.year} | {car.condition ? car.condition.charAt(0).toUpperCase() + car.condition.slice(1) : 'N/A'}
-                    </p>
-                  </div>
+                  <img
+                    src={car.images?.[0] || '/uploads/cars/default.jpg'}
+                    alt={`${car.make} ${car.model}`}
+                    style={{
+                      width: '100%',
+                      height: '200px',
+                      objectFit: 'cover',
+                      borderRadius: '0.75rem',
+                      marginBottom: '1rem',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                    }}
+                    onError={(e) => { e.target.src = '/uploads/cars/default.jpg'; }}
+                  />
                   <div
                     style={{
                       display: 'flex',
-                      gap: '0.75rem',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: '1rem',
                     }}
                   >
-                    <Link href={`/admin/edit/${car.id}`}>
-                      <Button
+                    <div>
+                      <h2
                         style={{
-                          backgroundColor: '#00bcd4',
+                          fontSize: '1.25rem',
+                          fontWeight: '600',
+                          color: '#00bcd4',
+                          marginBottom: '0.5rem',
+                        }}
+                      >
+                        {car.make} {car.model}
+                      </h2>
+                      <p
+                        style={{
+                          fontSize: '0.9rem',
+                          color: '#b0bec5',
+                        }}
+                      >
+                        Year: {car.year} | {car.condition ? car.condition.charAt(0).toUpperCase() + car.condition.slice(1) : 'N/A'}<br />
+                        Price: ${car.price.toLocaleString()} | Mileage: {car.mileage.toLocaleString()} mi<br />
+                        Location: {car.location || 'N/A'} | VIN: {car.vin || 'N/A'}
+                      </p>
+                      {car.features && car.features.length > 0 && (
+                        <p
+                          style={{
+                            fontSize: '0.85rem',
+                            color: '#b0bec5',
+                            marginTop: '0.25rem',
+                          }}
+                        >
+                          Features: {car.features.join(', ')}
+                        </p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: '0.75rem',
+                      }}
+                    >
+                      <Link href={`/admin/edit/${car.id}`}>
+                        <Button
+                          style={{
+                            backgroundColor: '#00bcd4',
+                            color: '#fff',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '0.5rem',
+                            border: 'none',
+                            fontSize: '0.95rem',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s ease, background-color 0.3s ease',
+                            ':hover': {
+                              backgroundColor: '#0288d1',
+                              transform: 'scale(1.05)',
+                            },
+                          }}
+                        >
+                          Edit
+                        </Button>
+                      </Link>
+                      <Button
+                        onClick={() => handleDelete(car.id)}
+                        style={{
+                          backgroundColor: '#f44336',
                           color: '#fff',
                           padding: '0.5rem 1rem',
                           borderRadius: '0.5rem',
@@ -343,37 +419,18 @@ export default function AdminPage() {
                           cursor: 'pointer',
                           transition: 'transform 0.2s ease, background-color 0.3s ease',
                           ':hover': {
-                            backgroundColor: '#0288d1',
+                            backgroundColor: '#d32f2f',
                             transform: 'scale(1.05)',
                           },
                         }}
                       >
-                        Edit
+                        Delete
                       </Button>
-                    </Link>
-                    <Button
-                      onClick={() => handleDelete(car.id)}
-                      style={{
-                        backgroundColor: '#f44336',
-                        color: '#fff',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '0.5rem',
-                        border: 'none',
-                        fontSize: '0.95rem',
-                        cursor: 'pointer',
-                        transition: 'transform 0.2s ease, background-color 0.3s ease',
-                        ':hover': {
-                          backgroundColor: '#d32f2f',
-                          transform: 'scale(1.05)',
-                        },
-                      }}
-                    >
-                      Delete
-                    </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

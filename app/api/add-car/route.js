@@ -27,6 +27,18 @@ export async function POST(request) {
       transmission: formData.get('transmission'),
       description: formData.get('description'),
       condition: formData.get('condition'),
+      location: formData.get('location'), // New field
+      vin: formData.get('vin'), // New field
+      exteriorColor: formData.get('exteriorColor'), // New field
+      interiorColor: formData.get('interiorColor'), // New field
+      engineSize: formData.get('engineSize'), // New field
+      horsepower: parseInt(formData.get('horsepower')) || 0, // New field
+      driveType: formData.get('driveType'), // New field
+      features: formData.get('features') ? formData.get('features').split(',') : [], // New field, comma-separated
+      sellerName: formData.get('sellerName'), // New field
+      sellerEmail: formData.get('sellerEmail'), // New field
+      status: formData.get('status') || 'Available', // New field with default
+      dateAdded: new Date(), // New field
     };
 
     // Validate inputs
@@ -39,6 +51,7 @@ export async function POST(request) {
     if (carData.mileage < 0) throw new Error('Mileage cannot be negative');
     if (!carData.fuelType) throw new Error('Fuel type is required');
     if (!carData.transmission) throw new Error('Transmission is required');
+    if (carData.horsepower < 0) throw new Error('Horsepower cannot be negative');
 
     // Handle multiple image uploads to Cloudinary
     const imageFiles = formData.getAll('images');
@@ -49,7 +62,6 @@ export async function POST(request) {
         const arrayBuffer = await imageFile.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         
-        // Upload to Cloudinary
         const result = await new Promise((resolve, reject) => {
           const uploadStream = cloudinary.v2.uploader.upload_stream(
             {

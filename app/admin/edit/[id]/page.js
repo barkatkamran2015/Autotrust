@@ -20,92 +20,113 @@ export default function EditCarPage() {
     transmission: '',
     description: '',
     condition: 'new',
+    location: '',
+    vin: '',
+    exteriorColor: '',
+    interiorColor: '',
+    engineSize: '',
+    horsepower: 0,
+    driveType: '',
+    features: '',
+    sellerName: '',
+    sellerEmail: '',
+    status: 'Available',
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
-  const [existingImages, setExistingImages] = useState([]);
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const makeInputRef = useRef(null);
 
+  // Validate id early
+  useEffect(() => {
+    if (!id || typeof id !== 'string' || !/^[0-9a-fA-F]{24}$/.test(id)) {
+      console.log('Invalid ID parameter detected:', id, 'Type:', typeof id);
+      router.push('/admin'); // Redirect to admin page if id is invalid
+    }
+  }, [id, router]);
+
   useEffect(() => {
     const fetchCar = async () => {
+      if (!id) return; // Skip fetch if id is invalid (already handled above)
+
       try {
-        const url = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/get-cars?id=${id}`;
-        console.log('Fetching car from:', url);
-        const response = await fetch(url, { cache: 'no-store' });
+        console.log('Fetching car with id:', id);
+        const response = await fetch(`/api/get-car?id=${id}`);
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to fetch car');
+          const text = await response.text();
+          console.error('Fetch response (not OK):', text);
+          throw new Error(`Failed to fetch car: ${response.statusText}`);
         }
-        const car = await response.json();
+        const data = await response.json();
+        console.log('Fetched car data:', data);
+        if (!data) {
+          throw new Error('No car data found');
+        }
         setFormData({
-          make: car.make || '',
-          model: car.model || '',
-          year: car.year || 0,
-          price: car.price || 0,
-          mileage: car.mileage || 0,
-          fuelType: car.fuelType || '',
-          transmission: car.transmission || '',
-          description: car.description || '',
-          condition: car.condition || 'new',
+          make: data.make || '',
+          model: data.model || '',
+          year: data.year || 0,
+          price: data.price || 0,
+          mileage: data.mileage || 0,
+          fuelType: data.fuelType || '',
+          transmission: data.transmission || '',
+          description: data.description || '',
+          condition: data.condition || 'new',
+          location: data.location || '',
+          vin: data.vin || '',
+          exteriorColor: data.exteriorColor || '',
+          interiorColor: data.interiorColor || '',
+          engineSize: data.engineSize || '',
+          horsepower: data.horsepower || 0,
+          driveType: data.driveType || '',
+          features: data.features ? data.features.join(',') : '',
+          sellerName: data.sellerName || '',
+          sellerEmail: data.sellerEmail || '',
+          status: data.status || 'Available',
         });
-        setExistingImages(car.images || []);
-        setImagePreviews(car.images || []);
+        setImagePreviews(data.images || []);
       } catch (err) {
-        console.error('Fetch car error:', err);
-        setError('Failed to load car data: ' + err.message);
-      } finally {
-        setIsLoading(false);
+        console.error('Error fetching car:', err);
+        setError(err.message || 'Failed to load car data');
+        router.push('/admin'); // Redirect on fetch failure
       }
     };
-    if (id) fetchCar();
-  }, [id]);
+
+    fetchCar();
+  }, [id, router]);
 
   useEffect(() => {
-    if (makeInputRef.current) {
-      makeInputRef.current.focus();
-    }
-  }, []);
-
-  useEffect(() => {
-    const newPreviews = imageFiles.map(file => URL.createObjectURL(file));
-    setImagePreviews([...existingImages, ...newPreviews]);
-    return () => newPreviews.forEach(preview => URL.revokeObjectURL(preview));
-  }, [imageFiles, existingImages]);
+    const previews = imageFiles.map(file => URL.createObjectURL(file));
+    setImagePreviews(prev => [...prev, ...previews]);
+    return () => previews.forEach(preview => URL.revokeObjectURL(preview));
+  }, [imageFiles]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'year' || name === 'price' || name === 'mileage' ? parseInt(value) || 0 : value,
+      [name]: name === 'year' || name === 'price' || name === 'mileage' || name === 'horsepower' ? parseInt(value) || 0 : value,
     }));
   };
 
   const handleImageChange = (e) => {
-    if (e.target.files) {
-      setImageFiles(Array.from(e.target.files));
-    } else {
-      setImageFiles([]);
-    }
-  };
-
-  const removeExistingImage = (index) => {
-    setExistingImages(prev => prev.filter((_, i) => i !== index));
+    const files = Array.from(e.target.files);
+    setImageFiles(files);
   };
 
   const validateForm = () => {
-    if (!formData.make) return 'Please enter the car make.';
-    if (!formData.model) return 'Please enter the car model.';
+    if (!formData.make) return 'Car make is required';
+    if (!formData.model) return 'Car model is required';
     if (formData.year <= 1885 || formData.year > new Date().getFullYear() + 1) {
-      return `Please enter a valid year (1886–${new Date().getFullYear() + 1}).`;
+      return `Year must be between 1886 and ${new Date().getFullYear() + 1}`;
     }
-    if (formData.price <= 0) return 'Please enter a valid price greater than 0.';
-    if (formData.mileage < 0) return 'Mileage cannot be negative.';
-    if (!formData.fuelType) return 'Please enter the fuel type.';
-    if (!formData.transmission) return 'Please enter the transmission type.';
-    return '';
+    if (formData.price <= 0) return 'Price must be greater than 0';
+    if (formData.mileage < 0) return 'Mileage cannot be negative';
+    if (!formData.fuelType) return 'Fuel type is required';
+    if (!formData.transmission) return 'Transmission is required';
+    if (formData.horsepower < 0) return 'Horsepower cannot be negative';
+    return null;
   };
 
   const handleSubmit = async (e) => {
@@ -131,43 +152,41 @@ export default function EditCarPage() {
       data.append('transmission', formData.transmission);
       data.append('description', formData.description);
       data.append('condition', formData.condition);
+      data.append('location', formData.location);
+      data.append('vin', formData.vin);
+      data.append('exteriorColor', formData.exteriorColor);
+      data.append('interiorColor', formData.interiorColor);
+      data.append('engineSize', formData.engineSize);
+      data.append('horsepower', formData.horsepower.toString());
+      data.append('driveType', formData.driveType);
+      data.append('features', formData.features);
+      data.append('sellerName', formData.sellerName);
+      data.append('sellerEmail', formData.sellerEmail);
+      data.append('status', formData.status);
+      imagePreviews.forEach(url => data.append('existingImages', url));
       imageFiles.forEach(file => data.append('images', file));
-      existingImages.forEach(url => data.append('existingImages', url));
 
-      const url = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/update-car`;
-      console.log('Sending PUT request to:', url, 'with FormData:', Array.from(data.entries()));
-      const response = await fetch(url, {
+      console.log('Submitting form data to /api/update-car');
+      const response = await fetch('/api/update-car', {
         method: 'PUT',
         body: data,
       });
 
       if (!response.ok) {
         const text = await response.text();
-        console.error('Response status:', response.status, 'Response text:', text.slice(0, 200));
-        try {
-          const errorData = JSON.parse(text);
-          if (response.status === 404 && errorData.error === 'Car not found') {
-            setError('Car not found. It may have been deleted.');
-          } else {
-            throw new Error(errorData.error || `Failed to update car (status: ${response.status})`);
-          }
-        } catch (jsonError) {
-          console.error('Non-JSON response:', text.slice(0, 100));
-          throw new Error(`Failed to update car: Server returned status ${response.status} with response: ${text.slice(0, 100)}`);
-        }
+        console.error('Update-car response (not OK):', text);
+        throw new Error(`Failed to update car: ${response.statusText} - ${text}`);
       }
 
-      console.log('Car updated successfully');
+      const responseData = await response.json();
+      console.log('Update-car response:', responseData);
       router.push('/admin');
     } catch (err) {
       console.error('Error in handleSubmit:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to update car');
       setIsSubmitting(false);
     }
   };
-
-  if (isLoading) return <div className="loading-section">Loading car data...</div>;
-  if (error) return <div className="error-section">{error}</div>;
 
   return (
     <div className={styles.addCarSection}>
@@ -259,6 +278,120 @@ export default function EditCarPage() {
               </select>
             </div>
             <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Location</label>
+              <Input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>VIN</label>
+              <Input
+                type="text"
+                name="vin"
+                value={formData.vin}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Exterior Color</label>
+              <Input
+                type="text"
+                name="exteriorColor"
+                value={formData.exteriorColor}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Interior Color</label>
+              <Input
+                type="text"
+                name="interiorColor"
+                value={formData.interiorColor}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Engine Size</label>
+              <Input
+                type="text"
+                name="engineSize"
+                value={formData.engineSize}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Horsepower</label>
+              <Input
+                type="number"
+                name="horsepower"
+                value={formData.horsepower.toString()}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Drive Type</label>
+              <Input
+                type="text"
+                name="driveType"
+                value={formData.driveType}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Features (comma-separated)</label>
+              <Input
+                type="text"
+                name="features"
+                value={formData.features}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+                placeholder="e.g., Leather Seats, Sunroof, Backup Camera"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Seller Name</label>
+              <Input
+                type="text"
+                name="sellerName"
+                value={formData.sellerName}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Seller Email</label>
+              <Input
+                type="email"
+                name="sellerEmail"
+                value={formData.sellerEmail}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.formLabel}>Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                className={styles.addCarInput}
+              >
+                <option value="Available">Available</option>
+                <option value="Sold">Sold</option>
+                <option value="Pending">Pending</option>
+              </select>
+            </div>
+            <div className={styles.formGroup}>
               <label className={styles.formLabel}>Description</label>
               <textarea
                 name="description"
@@ -269,7 +402,7 @@ export default function EditCarPage() {
               />
             </div>
             <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Upload New Images (Multiple, Optional)</label>
+              <label className={styles.formLabel}>Upload Images (Multiple)</label>
               <input
                 type="file"
                 accept="image/*"
@@ -280,23 +413,7 @@ export default function EditCarPage() {
               {imagePreviews.length > 0 && (
                 <div className={styles.imagePreview}>
                   {imagePreviews.map((preview, index) => (
-                    <div key={index} style={{ position: 'relative', display: 'inline-block' }}>
-                      <img
-                        src={preview}
-                        alt={`Preview ${index + 1}`}
-                        style={{ width: '100px', margin: '5px' }}
-                        onError={(e) => { e.target.src = '/uploads/cars/default.jpg'; }}
-                      />
-                      {index < existingImages.length && (
-                        <button
-                          type="button"
-                          onClick={() => removeExistingImage(index)}
-                          style={{ position: 'absolute', top: 0, right: 0, background: 'red', color: 'white', border: 'none', cursor: 'pointer' }}
-                        >
-                          X
-                        </button>
-                      )}
-                    </div>
+                    <img key={index} src={preview} alt={`Preview ${index + 1}`} style={{ width: '100px', margin: '5px' }} />
                   ))}
                 </div>
               )}

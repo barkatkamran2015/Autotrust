@@ -90,8 +90,8 @@ export function NavBar() {
             <h1 className={styles.navbarTitle}>
               <Link href="/">
                 <img
-                  src="/images/autotrust.png"
-                  alt="AutoTrust Co Logo"
+                  src="/images/primeauto.png"
+                  alt="Prime Auto Exchange Logo"
                   className={styles.navbarLogo}
                 />
               </Link>
