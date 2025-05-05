@@ -95,7 +95,7 @@ export default function HomePage() {
       {/* Original Hero Content (Below Slider) */}
       <div className={styles.heroSection}>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Welcome to AutoTrust Co</h1>
+          <h1 className={styles.heroTitle}>Welcome to Prime Auto Exchange</h1>
           <p className={styles.heroSubtitle}>
             Discover the best deals on new and used cars. Browse our inventory or contact us to find your perfect vehicle.
           </p>

@@ -4,15 +4,12 @@
   background: linear-gradient(180deg, var(--background-start) 0%, var(--background-end) 100%);
 }
 
-/* Card container */
-.carDetailCard {
-  width: 100%;
-  max-width: 1100px;
+/* Container */
+.container {
+  max-width: 1400px;
   margin: 0 auto;
-  background: var(--card-bg);
-  border-radius: 1rem;
-  box-shadow: var(--card-shadow);
-  padding: 2rem;
+  padding: 0 1rem;
+  background: transparent; /* Single background layer */
 }
 
 /* Title */
@@ -30,11 +27,10 @@
 
 /* Details section */
 .carDetails {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: var(--details-bg);
-  border-radius: 0.75rem;
-  box-shadow: var(--details-shadow);
+  padding: 2rem;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* Detail items */
@@ -52,50 +48,70 @@
   font-weight: 600;
 }
 
-/* Grid layout for details */
-.carDetailsGrid {
+/* Grid layout for specifications */
+.specificationsGrid {
   display: grid;
-  align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-/* Features section */
-.featuresContainer {
-  margin: 2rem 0;
+/* Specification card container */
+.specContainer {
+  background: rgba(255, 255, 255, 0.9); /* Subtle white background */
+  border-radius: 10px;
   padding: 1rem;
-  background: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #007bff;
-  animation: fadeIn 1s ease-out forwards;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.featuresTitle {
-  font-size: 1.5rem;
+/* Hover effect for specification cards */
+.specContainer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Specification title */
+.specTitle {
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #007bff;
-  margin-bottom: 1rem;
+  color: var(--features-title-color, #007bff);
+  margin-bottom: 0.75rem;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  position: relative;
+  padding-bottom: 0.3rem;
 }
 
-.featuresList {
+/* Decorative underline for titles */
+.specTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: #ff5722; /* Match badge color for consistency */
+}
+
+/* Specification badge list */
+.specList {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
+/* Ensure all features are styled as badges */
 .featureBadge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.9rem;
   background: #ff5722;
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -152,24 +168,24 @@
 .sellerInfo {
   margin-top: 2rem;
   padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
 }
 
 .sellerTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #222;
+  color: var(--text-color);
   margin-bottom: 1rem;
 }
 
 .sellerInfo p {
   margin: 0.5rem 0;
   font-size: 1rem;
-  color: #333;
+  color: var(--text-color);
 }
 
 .sellerEmail {
-  color: #007bff;
+  color: var(--link-color, #007bff);
   text-decoration: none;
 }
 
@@ -206,24 +222,23 @@
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {
-  .carDetailCard {
-    max-width: 100%;
-    padding: 1.5rem;
+  .container {
+    padding: 0 0.5rem;
   }
 
   .carDetails {
-    max-width: 100%;
+    padding: 1.5rem;
+  }
+
+  .specificationsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .carDetailsGrid {
+  .specificationsGrid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  .carDetailCard {
-    padding: 1.5rem;
+    gap: 1rem;
   }
 
   .carDetailTitle {
@@ -234,19 +249,27 @@
     font-size: 1rem;
   }
 
-  .featuresTitle {
-    font-size: 1.25rem;
+  .specTitle {
+    font-size: 1rem;
   }
 
   .featureBadge {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.8rem;
+  }
+
+  .specList {
+    gap: 0.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .carDetailCard {
-    padding: 1rem;
+  .carDetailSection {
+    padding: 1.5rem 0;
+  }
+
+  .container {
+    padding: 0 0.5rem;
   }
 
   .carDetailTitle {
@@ -257,17 +280,36 @@
     padding: 1rem;
   }
 
+  .specificationsGrid {
+    gap: 0.75rem;
+  }
+
+  .carDetails p {
+    margin: 1rem 0;
+  }
+
   .backButton {
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
   }
 
-  .featuresTitle {
-    font-size: 1.1rem;
+  .specTitle {
+    font-size: 0.95rem;
   }
 
   .featureBadge {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     padding: 0.3rem 0.7rem;
   }
+
+  .specContainer {
+    padding: 0.75rem;
+  }
+}
+
+/* Remove features-specific classes as they're now part of the spec classes */
+.featuresContainer,
+.featuresTitle,
+.featuresList {
+  display: none; /* No longer needed */
 }

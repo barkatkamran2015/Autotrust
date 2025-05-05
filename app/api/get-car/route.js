@@ -23,7 +23,7 @@ export async function GET(request) {
     }
 
     console.log('Car fetched from DB:', car);
-    return NextResponse.json({
+    const responseCar = {
       id: car._id.toString(),
       make: car.make || '',
       model: car.model || '',
@@ -46,7 +46,10 @@ export async function GET(request) {
       sellerEmail: car.sellerEmail || '',
       status: car.status || 'Available',
       images: car.images || [],
-    });
+    };
+
+    console.log('Returning features:', responseCar.features, 'Length:', responseCar.features.length); // Debug log
+    return NextResponse.json(responseCar);
   } catch (error) {
     console.error('Error in /api/get-car:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });

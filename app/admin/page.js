@@ -105,7 +105,7 @@ export default function AdminPage() {
                   flex-direction: column !important;
                   padding: 1.5rem !important;
                   gap: 1.5rem !important;
-                  align-items: flex-start !important;
+                  alignItems: flex-start !important;
                 }
                 .advertisement-image {
                   width: 100% !important;
@@ -340,51 +340,44 @@ export default function AdminPage() {
                     }}
                     onError={(e) => { e.target.src = '/uploads/cars/default.jpg'; }}
                   />
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: '1rem',
-                    }}
-                  >
-                    <div>
-                      <h2
-                        style={{
-                          fontSize: '1.25rem',
-                          fontWeight: '600',
-                          color: '#00bcd4',
-                          marginBottom: '0.5rem',
-                        }}
-                      >
-                        {car.make} {car.model}
-                      </h2>
+                  <div>
+                    <h2
+                      style={{
+                        fontSize: '1.25rem',
+                        fontWeight: '600',
+                        color: '#00bcd4',
+                        marginBottom: '0.5rem',
+                      }}
+                    >
+                      {car.make} {car.model}
+                    </h2>
+                    <p
+                      style={{
+                        fontSize: '0.9rem',
+                        color: '#b0bec5',
+                        marginBottom: '0.5rem',
+                      }}
+                    >
+                      Year: {car.year} | {car.condition ? car.condition.charAt(0).toUpperCase() + car.condition.slice(1) : 'N/A'}<br />
+                      Price: ${car.price.toLocaleString()} | Mileage: {car.mileage.toLocaleString()} mi<br />
+                      Location: {car.location || 'N/A'} | VIN: {car.vin || 'N/A'}
+                    </p>
+                    {car.features && car.features.length > 0 && (
                       <p
                         style={{
-                          fontSize: '0.9rem',
+                          fontSize: '0.85rem',
                           color: '#b0bec5',
+                          marginBottom: '1rem',
                         }}
                       >
-                        Year: {car.year} | {car.condition ? car.condition.charAt(0).toUpperCase() + car.condition.slice(1) : 'N/A'}<br />
-                        Price: ${car.price.toLocaleString()} | Mileage: {car.mileage.toLocaleString()} mi<br />
-                        Location: {car.location || 'N/A'} | VIN: {car.vin || 'N/A'}
+                        Features: {car.features.join(', ')}
                       </p>
-                      {car.features && car.features.length > 0 && (
-                        <p
-                          style={{
-                            fontSize: '0.85rem',
-                            color: '#b0bec5',
-                            marginTop: '0.25rem',
-                          }}
-                        >
-                          Features: {car.features.join(', ')}
-                        </p>
-                      )}
-                    </div>
+                    )}
                     <div
                       style={{
                         display: 'flex',
                         gap: '0.75rem',
+                        justifyContent: 'center',
                       }}
                     >
                       <Link href={`/admin/edit/${car.id}`}>

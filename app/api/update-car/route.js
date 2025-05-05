@@ -25,6 +25,10 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Invalid car ID' }, { status: 400 });
     }
 
+    const featuresString = formData.get('features') || '';
+    const features = featuresString.split(',').map(item => item.trim()).filter(item => item.length > 0);
+    console.log('Processed features:', features, 'Length:', features.length); // Detailed logging
+
     const carData = {
       make: formData.get('make') || '',
       model: formData.get('model') || '',
@@ -42,7 +46,7 @@ export async function PUT(request) {
       engineSize: formData.get('engineSize') || '',
       horsepower: parseInt(formData.get('horsepower')) || 0,
       driveType: formData.get('driveType') || '',
-      features: formData.get('features') ? formData.get('features').split(',').map(item => item.trim()) : [],
+      features: features, // Use the processed array
       sellerName: formData.get('sellerName') || '',
       sellerEmail: formData.get('sellerEmail') || '',
       status: formData.get('status') || 'Available',

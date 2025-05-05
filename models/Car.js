@@ -3,9 +3,9 @@ import mongoose from 'mongoose';
 const carSchema = new mongoose.Schema({
   make: { type: String, required: true },
   model: { type: String, required: true },
-  year: { type: Number, min: 1886, max: new Date().getFullYear() + 1 },
-  price: { type: Number, min: 0 },
-  mileage: { type: Number, min: 0 },
+  year: { type: Number, required: true },
+  price: { type: Number, required: true },
+  mileage: { type: Number, required: true },
   fuelType: { type: String, required: true },
   transmission: { type: String, required: true },
   description: String,
@@ -15,13 +15,14 @@ const carSchema = new mongoose.Schema({
   exteriorColor: String,
   interiorColor: String,
   engineSize: String,
-  horsepower: { type: Number, min: 0 },
+  horsepower: Number,
   driveType: String,
-  features: [String],
+  features: [String], // Array of strings, no limit specified
   sellerName: String,
   sellerEmail: String,
   status: { type: String, enum: ['Available', 'Sold', 'Pending'], default: 'Available' },
   images: [String],
-}, { timestamps: true });
+  dateAdded: { type: Date, default: Date.now },
+});
 
 export default mongoose.models.Car || mongoose.model('Car', carSchema);

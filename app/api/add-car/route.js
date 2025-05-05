@@ -17,6 +17,11 @@ export async function POST(request) {
     await dbConnect();
     const formData = await request.formData();
     console.log('FormData entries:', Array.from(formData.entries()));
+
+    const featuresString = formData.get('features') || '';
+    const features = featuresString.split(',').map(item => item.trim()).filter(item => item.length > 0);
+    console.log('Processed features:', features, 'Length:', features.length);
+
     const carData = {
       make: formData.get('make'),
       model: formData.get('model'),
@@ -34,7 +39,7 @@ export async function POST(request) {
       engineSize: formData.get('engineSize'), // New field
       horsepower: parseInt(formData.get('horsepower')) || 0, // New field
       driveType: formData.get('driveType'), // New field
-      features: formData.get('features') ? formData.get('features').split(',') : [], // New field, comma-separated
+      features: features, // Use the processed array
       sellerName: formData.get('sellerName'), // New field
       sellerEmail: formData.get('sellerEmail'), // New field
       status: formData.get('status') || 'Available', // New field with default

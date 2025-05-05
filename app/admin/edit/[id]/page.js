@@ -80,7 +80,7 @@ export default function EditCarPage() {
           engineSize: data.engineSize || '',
           horsepower: data.horsepower || 0,
           driveType: data.driveType || '',
-          features: data.features ? data.features.join(',') : '',
+          features: data.features ? data.features.join(', ') : '', // Join with space after comma
           sellerName: data.sellerName || '',
           sellerEmail: data.sellerEmail || '',
           status: data.status || 'Available',
@@ -159,14 +159,15 @@ export default function EditCarPage() {
       data.append('engineSize', formData.engineSize);
       data.append('horsepower', formData.horsepower.toString());
       data.append('driveType', formData.driveType);
-      data.append('features', formData.features);
+      data.append('features', formData.features); // Send the full string
       data.append('sellerName', formData.sellerName);
       data.append('sellerEmail', formData.sellerEmail);
       data.append('status', formData.status);
       imagePreviews.forEach(url => data.append('existingImages', url));
       imageFiles.forEach(file => data.append('images', file));
 
-      console.log('Submitting form data to /api/update-car');
+      console.log('Submitting features:', formData.features); // Debug log to verify the string
+
       const response = await fetch('/api/update-car', {
         method: 'PUT',
         body: data,
