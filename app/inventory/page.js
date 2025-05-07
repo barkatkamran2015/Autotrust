@@ -62,10 +62,11 @@ export default function InventoryPage() {
     const applyFilters = () => {
       let filtered = [...cars];
       console.log('Applying filters:', { searchModel, filterYear, minPrice, maxPrice, filterLocation, filterFuelType, filterTransmission, filterStatus });
-
+  
       if (searchModel) {
         filtered = filtered.filter(car =>
-          car.model.toLowerCase().includes(searchModel.toLowerCase())
+          (car.model.toLowerCase().includes(searchModel.toLowerCase()) ||
+           car.make.toLowerCase().includes(searchModel.toLowerCase()))
         );
       }
       if (filterYear) {
@@ -92,11 +93,11 @@ export default function InventoryPage() {
       if (filterStatus) {
         filtered = filtered.filter(car => car.status === filterStatus);
       }
-
+  
       console.log('Filtered cars:', filtered);
       setFilteredCars(filtered);
     };
-
+  
     applyFilters();
   }, [searchModel, filterYear, minPrice, maxPrice, filterLocation, filterFuelType, filterTransmission, filterStatus, cars]);
 

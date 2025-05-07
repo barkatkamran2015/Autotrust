@@ -42,13 +42,13 @@ export default function EditCarPage() {
   useEffect(() => {
     if (!id || typeof id !== 'string' || !/^[0-9a-fA-F]{24}$/.test(id)) {
       console.log('Invalid ID parameter detected:', id, 'Type:', typeof id);
-      router.push('/admin'); // Redirect to admin page if id is invalid
+      router.push('/admin');
     }
   }, [id, router]);
 
   useEffect(() => {
     const fetchCar = async () => {
-      if (!id) return; // Skip fetch if id is invalid (already handled above)
+      if (!id) return;
 
       try {
         console.log('Fetching car with id:', id);
@@ -79,8 +79,8 @@ export default function EditCarPage() {
           interiorColor: data.interiorColor || '',
           engineSize: data.engineSize || '',
           horsepower: data.horsepower || 0,
-          driveType: data.driveType || '',
-          features: data.features ? data.features.join(', ') : '', // Join with space after comma
+          driveType: data.dataType || '',
+          features: data.features ? data.features.join(', ') : '',
           sellerName: data.sellerName || '',
           sellerEmail: data.sellerEmail || '',
           status: data.status || 'Available',
@@ -89,7 +89,7 @@ export default function EditCarPage() {
       } catch (err) {
         console.error('Error fetching car:', err);
         setError(err.message || 'Failed to load car data');
-        router.push('/admin'); // Redirect on fetch failure
+        router.push('/admin');
       }
     };
 
@@ -104,10 +104,17 @@ export default function EditCarPage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'year' || name === 'price' || name === 'mileage' || name === 'horsepower' ? parseInt(value) || 0 : value,
-    }));
+    console.log(`Input change - Name: ${name}, Value: ${value}`);
+    setFormData((prev) => {
+      const newValue =
+        name === 'year' || name === 'mileage' || name === 'horsepower'
+          ? parseInt(value) || 0
+          : name === 'price'
+          ? parseFloat(value) || 0
+          : value;
+      console.log(`Updated formData[${name}]: ${newValue}`);
+      return { ...prev, [name]: newValue };
+    });
   };
 
   const handleImageChange = (e) => {
@@ -146,6 +153,7 @@ export default function EditCarPage() {
       data.append('make', formData.make);
       data.append('model', formData.model);
       data.append('year', formData.year.toString());
+      console.log('Price before submission:', formData.price);
       data.append('price', formData.price.toString());
       data.append('mileage', formData.mileage.toString());
       data.append('fuelType', formData.fuelType);
@@ -159,14 +167,14 @@ export default function EditCarPage() {
       data.append('engineSize', formData.engineSize);
       data.append('horsepower', formData.horsepower.toString());
       data.append('driveType', formData.driveType);
-      data.append('features', formData.features); // Send the full string
+      data.append('features', formData.features);
       data.append('sellerName', formData.sellerName);
       data.append('sellerEmail', formData.sellerEmail);
       data.append('status', formData.status);
       imagePreviews.forEach(url => data.append('existingImages', url));
       imageFiles.forEach(file => data.append('images', file));
 
-      console.log('Submitting features:', formData.features); // Debug log to verify the string
+      console.log('Submitting features:', formData.features);
 
       const response = await fetch('/api/update-car', {
         method: 'PUT',
@@ -229,11 +237,13 @@ export default function EditCarPage() {
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>Price ($)</label>
               <Input
-                type="number"
+                type="text"
                 name="price"
                 value={formData.price.toString()}
                 onChange={handleInputChange}
                 className={styles.addCarInput}
+                pattern="[0-9]+(\.[0-9]{1,2})?"
+                title="Please enter a valid price (e.g., 4500 or 4500.99)"
               />
             </div>
             <div className={styles.formGroup}>

@@ -129,6 +129,25 @@
   color: var(--button-bg-start);
 }
 
+.filterInput {
+  width: 90%;
+  max-width: 500px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filterInput:focus {
+  outline: none;
+  border-color: var(--button-bg-start);
+  box-shadow: 0 0 10px var(--button-shadow), inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .filterSelect {
   width: 100%;
   max-width: 500px;
@@ -194,10 +213,32 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Light mode specific styling for price range */
+[data-theme="light"] .rangeInput {
+  background: #e0e0e0;
+}
+
+[data-theme="light"] .rangeInput::-webkit-slider-thumb {
+  background: #4a90e2;
+}
+
+[data-theme="light"] .rangeInput::-moz-range-thumb {
+  background: #4a90e2;
+}
+
+[data-theme="light"] .rangeInput:hover {
+  background: #d3d3d3;
+}
+
 .rangeValue {
   font-size: 0.9rem;
   color: var(--desc-color);
   text-align: center;
+}
+
+/* Light mode specific styling for range value */
+[data-theme="light"] .rangeValue {
+  color: #333;
 }
 
 .resetButton {
@@ -479,12 +520,15 @@
   .inventoryTitle {
     font-size: 2rem;
   }
+
   .priceRange {
     max-width: 85%;
   }
+
   .filterSelect {
     max-width: 91%;
   }
+
   .resetButton {
     max-width: 90%;
   }
@@ -548,6 +592,8 @@
   .filterLabel {
     font-size: 0.9rem;
     margin-bottom: 0.4rem;
+    padding: 0.5rem;
+    width: 50%;
   }
 
   .rangeValue {
@@ -568,5 +614,12 @@
   .searchInput {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
+  }
+
+  .filterInput {
+    max-width: 86%;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 0.4rem;
   }
 }

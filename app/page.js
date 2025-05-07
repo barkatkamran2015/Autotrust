@@ -15,7 +15,7 @@ export default function HomePage() {
     },
     {
       image: '/images/2.png',
-      title: 'The 2025 Tundra\nThe New Definition of Grit',
+      title: 'The 2025 Highlander\nThe New Definition of Grit',
       buttonText: 'Learn More',
       buttonLink: '/tundra',
       textOnRight: false,

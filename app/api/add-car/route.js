@@ -22,28 +22,33 @@ export async function POST(request) {
     const features = featuresString.split(',').map(item => item.trim()).filter(item => item.length > 0);
     console.log('Processed features:', features, 'Length:', features.length);
 
+    const rawPrice = formData.get('price'); // Raw value from form
+    console.log('Raw price from formData:', rawPrice);
+    const price = parseFloat(rawPrice) || 0;
+    console.log('Parsed price:', price);
+
     const carData = {
       make: formData.get('make'),
       model: formData.get('model'),
       year: parseInt(formData.get('year')) || 0,
-      price: parseFloat(formData.get('price')) || 0,
+      price: price,
       mileage: parseInt(formData.get('mileage')) || 0,
       fuelType: formData.get('fuelType'),
       transmission: formData.get('transmission'),
       description: formData.get('description'),
       condition: formData.get('condition'),
-      location: formData.get('location'), // New field
-      vin: formData.get('vin'), // New field
-      exteriorColor: formData.get('exteriorColor'), // New field
-      interiorColor: formData.get('interiorColor'), // New field
-      engineSize: formData.get('engineSize'), // New field
-      horsepower: parseInt(formData.get('horsepower')) || 0, // New field
-      driveType: formData.get('driveType'), // New field
-      features: features, // Use the processed array
-      sellerName: formData.get('sellerName'), // New field
-      sellerEmail: formData.get('sellerEmail'), // New field
-      status: formData.get('status') || 'Available', // New field with default
-      dateAdded: new Date(), // New field
+      location: formData.get('location'),
+      vin: formData.get('vin'),
+      exteriorColor: formData.get('exteriorColor'),
+      interiorColor: formData.get('interiorColor'),
+      engineSize: formData.get('engineSize'),
+      horsepower: parseInt(formData.get('horsepower')) || 0,
+      driveType: formData.get('driveType'),
+      features: features,
+      sellerName: formData.get('sellerName'),
+      sellerEmail: formData.get('sellerEmail'),
+      status: formData.get('status') || 'Available',
+      dateAdded: new Date(),
     };
 
     // Validate inputs

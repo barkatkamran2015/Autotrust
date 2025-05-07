@@ -27,13 +27,18 @@ export async function PUT(request) {
 
     const featuresString = formData.get('features') || '';
     const features = featuresString.split(',').map(item => item.trim()).filter(item => item.length > 0);
-    console.log('Processed features:', features, 'Length:', features.length); // Detailed logging
+    console.log('Processed features:', features, 'Length:', features.length);
+
+    const rawPrice = formData.get('price'); // Raw value from form
+    console.log('Raw price from formData:', rawPrice);
+    const price = parseFloat(rawPrice) || 0;
+    console.log('Parsed price:', price);
 
     const carData = {
       make: formData.get('make') || '',
       model: formData.get('model') || '',
       year: parseInt(formData.get('year')) || 0,
-      price: parseFloat(formData.get('price')) || 0,
+      price: price,
       mileage: parseInt(formData.get('mileage')) || 0,
       fuelType: formData.get('fuelType') || '',
       transmission: formData.get('transmission') || '',
@@ -46,7 +51,7 @@ export async function PUT(request) {
       engineSize: formData.get('engineSize') || '',
       horsepower: parseInt(formData.get('horsepower')) || 0,
       driveType: formData.get('driveType') || '',
-      features: features, // Use the processed array
+      features: features,
       sellerName: formData.get('sellerName') || '',
       sellerEmail: formData.get('sellerEmail') || '',
       status: formData.get('status') || 'Available',
@@ -70,7 +75,7 @@ export async function PUT(request) {
     const existingImages = formData.getAll('existingImages') || [];
 
     // Handle new image uploads to Cloudinary
-    const imageFiles = formData.getAll('images').filter(file => file.size > 0); // Ignore empty files
+    const imageFiles = formData.getAll('images').filter(file => file.size > 0);
     const newImageUrls = [];
     if (imageFiles.length > 0) {
       console.log(`Uploading ${imageFiles.length} new images to Cloudinary`);
