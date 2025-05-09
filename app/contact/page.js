@@ -53,11 +53,11 @@ export default function Contact() {
           <h2>Customer Service</h2>
           <p>
             <span className={styles.icon}>📞</span>
-            <strong>Phone:</strong> <a href="tel:18005551234">1-800-555-1234</a>
+            <strong>Phone:</strong> <a href="tel:14422258848">1-442-225-8848</a>
           </p>
           <p>
             <span className={styles.icon}>📧</span>
-            <strong>Email:</strong> <a href="mailto:support@autotrustco.com">support@autotrustco.com</a>
+            <strong>Email:</strong> <a href="mailto:sahilsaddiqi41@gmail.com">sahilsaddiqi41@gmail.com</a>
           </p>
           <p>
             <span className={styles.icon}>⏰</span>
@@ -68,10 +68,10 @@ export default function Contact() {
           <h2>Head Office</h2>
           <p>
             <span className={styles.icon}>🏢</span>
-            123 Auto Drive
+            Prime Auto Exchange
           </p>
-          <p>Toronto, ON M5V 2T6</p>
-          <p>Canada</p>
+          <p>1740 W. Adams Ste. 3017 Phoenix, AZ 85007</p>
+          <p>US</p>
         </div>
       </section>
       <section className={styles.contactForm}>
