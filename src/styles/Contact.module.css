@@ -1,0 +1,283 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(180deg, var(--background-start) 0%, var(--background-end) 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  
+  .header {
+    text-align: center;
+    padding: 40px 0;
+    background-color: var(--card-bg);
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    color: var(--button-bg-start);
+    margin: 0;
+  }
+  
+  .contactInfo {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    animation: slideIn 0.5s ease-in-out;
+  }
+  
+  .infoColumn {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .infoColumn h2 {
+    font-size: 1.5rem;
+    color: var(--button-bg-start);
+    margin-bottom: 10px;
+  }
+  
+  .infoColumn p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: var(--desc-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .infoColumn a {
+    color: var(--button-bg-start);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .infoColumn a:hover {
+    color: var(--button-bg-end);
+  }
+  
+  .icon {
+    font-size: 1.2rem;
+  }
+  
+  .contactForm {
+    margin: 20px 0;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    animation: slideIn 0.5s ease-in-out;
+  }
+  
+  .contactForm h2 {
+    font-size: 1.5rem;
+    color: var(--button-bg-start);
+    margin-bottom: 20px;
+  }
+  
+  .formStatus {
+    color: var(--button-bg-start);
+    font-weight: 500;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .formGroup label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--desc-color);
+  }
+  
+  .formGroup input,
+  .formGroup textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--details-bg);
+    color: var(--text-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .formGroup input:focus,
+  .formGroup textarea:focus {
+    border-color: var(--button-bg-start);
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+    outline: none;
+  }
+  
+  .formGroup textarea {
+    resize: vertical;
+  }
+  
+  .submitButton {
+    background: linear-gradient(90deg, var(--button-bg-start) 0%, var(--button-bg-end) 100%);
+    color: var(--button-text);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: var(--button-shadow);
+  }
+  
+  .submitButton:hover {
+    background: linear-gradient(90deg, var(--button-bg-end) 0%, var(--button-bg-start) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  }
+  
+  .resources {
+    margin: 20px 0;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    animation: slideIn 0.5s ease-in-out;
+  }
+  
+  .resources h2 {
+    font-size: 1.5rem;
+    color: var(--button-bg-start);
+    margin-bottom: 20px;
+  }
+  
+  .resourceLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .resourceLink {
+    background-color: var(--details-bg);
+    color: var(--text-color);
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .resourceLink:hover {
+    background-color: var(--button-bg-start);
+    color: var(--button-text);
+    transform: translateY(-2px);
+  }
+  
+  .socialLinks {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .socialLink {
+    color: var(--button-bg-start);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .socialLink:hover {
+    color: var(--button-bg-end);
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header h1 {
+      font-size: 2rem;
+    }
+  
+    .contactInfo {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .infoColumn p {
+      justify-content: center;
+    }
+  
+    .contactForm h2,
+    .resources h2 {
+      font-size: 1.3rem;
+    }
+  
+    .formGroup input,
+    .formGroup textarea {
+      font-size: 0.9rem;
+    }
+  
+    .submitButton {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+  
+    .resourceLinks {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .socialLinks {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .contactForm h2,
+    .resources h2 {
+      font-size: 1.1rem;
+    }
+  
+    .formGroup input,
+    .formGroup textarea {
+      font-size: 0.85rem;
+    }
+  
+    .submitButton {
+      font-size: 0.85rem;
+    }
+  
+    .resourceLink,
+    .socialLink {
+      font-size: 0.9rem;
+    }
+  }

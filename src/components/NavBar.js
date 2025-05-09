@@ -113,6 +113,9 @@ export function NavBar() {
               <Link href="/inventory" className={styles.navbarLink} onClick={() => setIsOpen(false)}>
                 Inventory
               </Link>
+              <Link href="/contact" className={styles.navbarLink} onClick={() => setIsOpen(false)}>
+                Contact
+              </Link>
               {user ? (
                 <div
                   className={styles.dropdown}

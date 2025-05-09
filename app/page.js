@@ -7,22 +7,36 @@ import styles from '../src/styles/Home.module.css';
 export default function HomePage() {
   const slides = [
     {
-      image: '/images/1.png',
+      image: '/images/honda-civic.png',
       title: "This Month's Offers & Promotions",
       buttonText: 'See Offers & Promotions',
       buttonLink: '/promotions',
       textOnRight: true,
     },
     {
-      image: '/images/2.png',
-      title: 'The 2025 Highlander\nThe New Definition of Grit',
+      image: '/images/nissan-rogue.png',
+      title: 'The 2025 Nissan Rogue\nThe New Definition of Grit',
       buttonText: 'Learn More',
       buttonLink: '/tundra',
       textOnRight: false,
     },
     {
-      image: '/images/3.jpg',
-      title: 'The 2025 Corolla Cross\nSUV that lets you do it all.',
+      image: '/images/toyota-4Runner.png',
+      title: 'The 2025 TOYOTA 4Runner\nSUV that lets you do it all.',
+      buttonText: 'Learn More',
+      buttonLink: '/corolla-cross',
+      textOnRight: false,
+    },
+    {
+      image: '/images/toyota-tundra.png',
+      title: 'The 2025 TOYOTA Tundra\nSUV that lets you do it all.',
+      buttonText: 'Learn More',
+      buttonLink: '/corolla-cross',
+      textOnRight: false,
+    },
+    {
+      image: '/images/nissan-rogue-inside.png',
+      title: 'The 2025 Nissan Rogue\nSUV that lets you do it all.',
       buttonText: 'Learn More',
       buttonLink: '/corolla-cross',
       textOnRight: false,

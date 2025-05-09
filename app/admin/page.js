@@ -153,8 +153,8 @@ export default function AdminPage() {
           <div className="advertisement-section" style={{ display: 'inherit', flexDirection: 'inherit', gap: 'inherit', alignItems: 'inherit', padding: 'inherit' }}>
             <img
               className="advertisement-image"
-              src="/images/1.png"
-              alt="Toyota RAV4 Promotion"
+              src="/images/honda-civic.png"
+              alt="Honda Civic Promotion"
               style={{
                 width: '300px',
                 height: '200px',
@@ -177,7 +177,7 @@ export default function AdminPage() {
                   textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
                 }}
               >
-                Drive the Future with Toyota RAV4!
+                Drive the Future with HONDA CIVIC!
               </h2>
               <p
                 className="advertisement-text"
@@ -188,7 +188,7 @@ export default function AdminPage() {
                   lineHeight: '1.5',
                 }}
               >
-                Unleash your drive with the 2025 Toyota RAV4! Now available with 0% APR for 36 months and a free maintenance package for the first year. Don’t miss out on this limited-time offer—stock is moving fast!
+                Unleash your drive with the 2025 Honda Civic! Now available with 0% APR for 36 months and a free maintenance package for the first year. Don’t miss out on this limited-time offer—stock is moving fast!
               </p>
               <Button
                 className="advertisement-button"
@@ -212,7 +212,7 @@ export default function AdminPage() {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = '0 4px 15px rgba(255, 111, 97, 0.3)';
                 }}
-                onClick={() => window.open('https://www.toyota.com/rav4', '_blank')}
+                onClick={() => window.open('https://www.honda.ca/en/civic_sedan', '_blank')}
               >
                 Explore Now
               </Button>
@@ -328,7 +328,7 @@ export default function AdminPage() {
                   }}
                 >
                   <img
-                    src={car.images?.[0] || '/uploads/cars/default.jpg'}
+                    src={car.images?.[0] || '/uploads/cars/default.JPG'}
                     alt={`${car.make} ${car.model}`}
                     style={{
                       width: '100%',
@@ -338,7 +338,7 @@ export default function AdminPage() {
                       marginBottom: '1rem',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
                     }}
-                    onError={(e) => { e.target.src = '/uploads/cars/default.jpg'; }}
+                    onError={(e) => { e.target.src = '/uploads/cars/default.JPG'; }}
                   />
                   <div>
                     <h2
