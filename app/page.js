@@ -45,7 +45,6 @@ export default function HomePage() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-scroll every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -53,28 +52,19 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  };
-
-  const goToPrevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  const goToNextSlide = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
+  const goToSlide = (index) => setCurrentSlide(index);
+  const goToPrevSlide = () => setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  const goToNextSlide = () => setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
 
   return (
     <div className={styles.homeContainer}>
-      {/* Slider Section */}
       <div className={styles.slider}>
         {slides.map((slide, index) => (
           <div
             key={index}
             className={`${styles.slide} ${index === currentSlide ? styles.active : ''}`}
-            style={{ backgroundImage: `url(${slide.image})` }}
           >
+            <img src={slide.image} alt={slide.title} className={styles.slideImage} />
             <div
               className={`${styles.slideContent} ${
                 slide.textOnRight ? styles.textOnRight : ''
@@ -87,7 +77,6 @@ export default function HomePage() {
             </div>
           </div>
         ))}
-        {/* Navigation Dots */}
         <div className={styles.dots}>
           {slides.map((_, index) => (
             <span
@@ -97,7 +86,6 @@ export default function HomePage() {
             />
           ))}
         </div>
-        {/* Navigation Arrows */}
         <button className={styles.arrowLeft} onClick={goToPrevSlide}>
           &lt;
         </button>
@@ -106,7 +94,6 @@ export default function HomePage() {
         </button>
       </div>
 
-      {/* Original Hero Content (Below Slider) */}
       <div className={styles.heroSection}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>Welcome to Prime Auto Exchange</h1>
