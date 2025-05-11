@@ -5,30 +5,42 @@
   padding: 2rem 0;
 }
 
-/* Slider Styles */
+/* Slider Container */
 .slider {
-  position: relative;
   width: 100%;
-  height: 500px;
+  aspect-ratio: 16 / 7;
+  position: relative;
   overflow: hidden;
 }
 
+/* Individual Slide */
 .slide {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
 
 .slide.active {
   opacity: 1;
+  z-index: 1;
 }
 
+/* Slide Image */
+.slideImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Slide Content */
 .slideContent {
   position: absolute;
   top: 50%;
@@ -36,22 +48,25 @@
   transform: translateY(-50%);
   color: var(--text-color);
   max-width: 500px;
+  z-index: 2;
 }
 
 .slideContent.textOnRight {
   left: auto;
   right: 5%;
-  background: rgba(59, 130, 246, 0.8); /* Adjusted to blue accent */
+  background: rgba(59, 130, 246, 0.8);
   padding: 2rem;
   border-radius: 1rem;
 }
 
+/* Slide Text */
 .slideTitle {
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.2;
-  white-space: pre-line; /* Preserve line breaks in title */
+  white-space: pre-line;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: aliceblue;
 }
 
 .slideButton {
@@ -80,6 +95,7 @@
   transform: translateX(-50%);
   display: flex;
   gap: 0.5rem;
+  z-index: 3;
 }
 
 .dot {
@@ -96,7 +112,7 @@
   opacity: 1;
 }
 
-/* Navigation Arrows */
+/* Arrows */
 .arrowLeft,
 .arrowRight {
   position: absolute;
@@ -109,6 +125,7 @@
   font-size: 1.5rem;
   cursor: pointer;
   transition: background 0.3s ease;
+  z-index: 3;
 }
 
 .arrowLeft {
@@ -124,7 +141,7 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
-/* Hero Section (Original Content) */
+/* Hero Section */
 .heroSection {
   padding: 4rem 0;
 }
@@ -170,13 +187,10 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .slider {
-    height: 400px;
-  }
-
   .slideContent {
     left: 5%;
     max-width: 90%;
+    padding: 1rem;
   }
 
   .slideContent.textOnRight {
@@ -214,10 +228,6 @@
 }
 
 @media (max-width: 480px) {
-  .slider {
-    height: 300px;
-  }
-
   .slideContent {
     top: 60%;
   }
